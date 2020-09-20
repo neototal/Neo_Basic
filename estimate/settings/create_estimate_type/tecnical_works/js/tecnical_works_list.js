@@ -107,7 +107,8 @@ function load_tecnical_works_to_table(id, name, body_div) {
     a_btn_select.setAttribute("class", "w3-theme-dark w3-button w3-hover-blue-grey w3-margin w3-round");
     a_btn_select.appendChild(document.createTextNode("select"));
     a_btn_select.addEventListener("click", function () {
-        save_update_tecnical_work(id, a_div_row,body_div);
+//        alert("ok");
+        save_update_tecnical_work_setup(id, a_div_row,body_div);
         a_div_row.remove();
     });
 
@@ -116,14 +117,17 @@ function load_tecnical_works_to_table(id, name, body_div) {
     body_div.appendChild(a_div_row);
 
 }
-function save_update_tecnical_work(id, div_row,body_div) {
-    var sending_value = "id=" + id ;
+function save_update_tecnical_work_setup(id, div_row,body_div) {
+//    alert(id);
+    var sending_value = "id=" + id +"&estimate_id=" + get_estimate_type_id+"&estimate_in_state="+get_estimate_in_out_state;
+    alert(sending_value+" tecnical");
     $.ajax({
         url: "create_estimate_type/tecnical_works/set_estimate_type_tecnical_work.php",
         type: 'POST',
         data: sending_value,
         cache: false,
         success: function (data) {
+//            alert(data);
             load_estimate_type();
             load_tecnical_works_list("", body_div) 
         }

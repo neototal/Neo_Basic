@@ -29,11 +29,26 @@ and open the template in the editor.
 
         <script type="text/javascript">
 
-
+            window.onbeforeunload = function () {
+                return "Do you really want to leave this page?";
+            };
+            function remove_estimate_type_id() {
+                console.log("test");
+            }
 
             $(document).ready(function () {
                 load_estimate_id();
                 set_header_info();
+
+                var search_btn = document.getElementById("search_value_btn");
+                search_btn.addEventListener("click", function () {
+                    load_estimate_data();
+                });
+                var cancel_search = document.getElementById("cancel_search");
+                cancel_search.addEventListener("click", function () {
+                    $("#search_value").val('');
+                    load_estimate_data();
+                });
 
                 var modal_close_btn = document.getElementById("close");
                 modal_close_btn.addEventListener("click", function () {
@@ -53,6 +68,7 @@ and open the template in the editor.
                     type: 'POST',
                     cache: false,
                     success: function (data) {
+//                        alert(data);
                         get_estimate_type_id = parseInt(data);
 //                        alert(get_estimate_type_id);
                         load_estimate_type();
@@ -63,13 +79,19 @@ and open the template in the editor.
             function set_header_info() {
                 var setup_button_list = new Array();
                 setup_button_list.push("Add Category");
+                setup_button_list.push("Add Out Of Estimate List");
 
                 var button_list = setup_button(setup_button_list);
 
                 button_list[0].addEventListener("click", function () {
-                    load_selection();
+                    load_selection(1);
 
                 });
+                button_list[1].addEventListener("click", function () {
+                    load_selection(0);
+
+                });
+
 
 
             }
@@ -97,9 +119,21 @@ and open the template in the editor.
                 });
 
             }
-
+            var type_id = 0;
             function load_estimate_data() {
-                var sending_value = "id=" + get_estimate_type_id;
+                var search = document.getElementById("search_value");
+                
+                if (search.value == "") {
+//                    alert('test1');
+                    document.getElementById("search_value_btn").style.display = "block";
+                    document.getElementById("cancel_search").style.display = "none";
+                } else {
+                    document.getElementById("search_value_btn").style.display = "none";
+                    document.getElementById("cancel_search").style.display = "block";
+                }
+                
+                var sending_value = "id=" + get_estimate_type_id + "&search=" + search.value;
+//                alert(sending_value);
                 var div_body = document.getElementById("databody");
                 $(div_body).empty();
                 $.ajax({
@@ -108,20 +142,125 @@ and open the template in the editor.
                     data: sending_value,
                     cache: false,
                     success: function (data) {
-                        alert(data);
+//                        alert(data);
                         var json = eval(data);
-                        
-                        for (var i = 0; i < json.length; i++) {
 
+                        for (var i = 0; i < json.length; i++) {
                             load_data_of_table(json[i].id, json[i].name, json[i].dis, div_body, json[i].type);
                         }
+                        load_extra_estimate_data();
+                        if (json.length == 0) {
+                            var a_row = document.createElement("div");
+                            a_row.setAttribute("class", "row w3-padding-16 w3-hover-gray");
+                            var a_col_01 = document.createElement("div");
+                            a_col_01.setAttribute("class", "col-lg-12");
+                            var center_text = document.createElement("center");
+                            center_text.appendChild(document.createTextNode("data not found"));
+                            a_col_01.appendChild(center_text);
+                            a_row.appendChild(a_col_01);
+                            div_body.appendChild(a_row);
+
+                            var button_body = document.getElementById("button_body");
+                            $(button_body).empty();
+                            var btn_cancel = document.createElement("button");
+                            btn_cancel.setAttribute("class", "w3-theme-dark w3-button w3-input w3-round w3-red");
+                            btn_cancel.appendChild(document.createTextNode("Cancel"));
+                            btn_cancel.addEventListener("click", function () {
+                                cancel_estimate_type();
+                            });
+                            button_body.appendChild(btn_cancel);
+                            var button_body_02 = document.getElementById("button_body_02");
+                            $(button_body_02).empty();
+
+                        } else {
+                            var button_body = document.getElementById("button_body");
+                            $(button_body).empty();
+                            var btn_finish = document.createElement("button");
+                            btn_finish.setAttribute("class", "w3-theme-dark w3-button w3-input w3-round");
+                            btn_finish.appendChild(document.createTextNode("Finish"));
+                            btn_finish.addEventListener("click", function () {
+                                finish_estimate_type();
+                            });
+                            button_body.appendChild(btn_finish);
+
+                            var button_body_02 = document.getElementById("button_body_02");
+                            $(button_body_02).empty();
+                            var btn_cancel = document.createElement("button");
+                            btn_cancel.setAttribute("class", "w3-theme-dark w3-button w3-input w3-round ");
+                            btn_cancel.appendChild(document.createTextNode("Cancel"));
+                            btn_cancel.addEventListener("click", function () {
+                                if (confirm("do you want to save as drafts")) {
+                                    window.onbeforeunload = null;
+                                    window.location.href = "../estimate_settings.php";
+                                } else {
+                                    cancel_estimate_type();
+                                }
+                            });
+                            button_body_02.appendChild(btn_cancel);
+
+                            var button_body_03 = document.getElementById("button_body_03");
+                            $(button_body_03).empty();
+                            var btn_del = document.createElement("button");
+                            btn_del.setAttribute("class", "w3-theme-dark w3-button w3-input w3-round w3-red");
+                            btn_del.appendChild(document.createTextNode("Delete"));
+                            btn_del.addEventListener("click", function () {
+                                cancel_estimate_type();
+                            });
+                            button_body_03.appendChild(btn_del);
+                        }
+//                   
                     }
                 });
             }
+
+//            ---------------------------------------------------------------------------------------------------------------------------------
+
+            function load_extra_estimate_data() {
+
+                var sending_value = "id=" + get_estimate_type_id;
+//                alert(sending_value);
+                var div_body = document.getElementById("databody_02");
+                $(div_body).empty();
+                $.ajax({
+                    url: "out_of_estimate/extra_estimate_data_list.php",
+                    type: 'POST',
+                    data: sending_value,
+                    cache: false,
+                    success: function (data) {
+//                        alert(data);
+                        var json = eval(data);
+
+                        for (var i = 0; i < json.length; i++) {
+                            load_data_of_table(json[i].id, json[i].name, json[i].dis, div_body, json[i].type);
+                        }
+                        if (json.length == 0) {
+                            var a_row = document.createElement("div");
+                            a_row.setAttribute("class", "row w3-padding-16 w3-hover-gray");
+                            var a_col_01 = document.createElement("div");
+                            a_col_01.setAttribute("class", "col-lg-12");
+                            var center_text = document.createElement("center");
+                            center_text.appendChild(document.createTextNode("data not found"));
+                            a_col_01.appendChild(center_text);
+                            a_row.appendChild(a_col_01);
+                            div_body.appendChild(a_row);
+
+
+                        } else {
+
+                        }
+//                   
+                    }
+                });
+            }
+
+
+
+//            --------------------------------------------------------------------------------------------------------------------------------------
             function load_data_of_table(id, name, dis, div_body, type_of_data) {
-                alert(id + " " + name + " " + dis + " " + type_of_data);
+
+//                alert(id + " " + name + " " + dis + " " + type_of_data);
                 var a_row = document.createElement("div");
-                a_row.setAttribute("class", "row");
+                a_row.setAttribute("class", "row w3-padding-16 w3-hover-gray");
                 var a_col_01 = document.createElement("div");
                 a_col_01.setAttribute("class", "col-lg-10");
 
@@ -180,7 +319,7 @@ and open the template in the editor.
                 var span_btn_goble = document.createElement("span");
                 span_btn_goble.setAttribute("class", "fa fa-globe");
                 btn_goble.appendChild(span_btn_goble);
-//                    a_col_02.appendChild(btn_goble);
+//                a_col_02.appendChild(btn_goble);
 
 
                 var a_col_03 = document.createElement("div");
@@ -190,7 +329,7 @@ and open the template in the editor.
                 btn_del.setAttribute("class", "w3-red w3-button w3-input w3-round");
                 btn_del.addEventListener("click", function () {
                     if (confirm("do you want to delete the record")) {
-                        remove_estimate(id);
+                        remove_estimate_type_data(id, type_of_data);
                     }
                 });
                 var span_btn_del = document.createElement("span");
@@ -208,7 +347,39 @@ and open the template in the editor.
                 div_body.appendChild(document.createElement("hr"));
 
             }
-            function remove_estimate(id) {
+            function remove_estimate_type_data(id, type_of_data) {
+            }
+            function finish_estimate_type() {
+                var sending_value = "id=" + get_estimate_type_id;
+//                alert(sending_value);
+                $.ajax({
+                    url: "create_estimate_type/finalizeing.php",
+                    type: 'POST',
+                    data: sending_value,
+                    cache: false,
+                    success: function (data) {
+                        if (data == "ok") {
+                            window.onbeforeunload = null;
+                            window.location.href = "../estimate_settings.php";
+                        }
+                    }
+                });
+            }
+            function cancel_estimate_type() {
+                var sending_value = "id=" + get_estimate_type_id;
+//                alert(sending_value);
+                $.ajax({
+                    url: "create_estimate_type/cancel_.php",
+                    type: 'POST',
+                    data: sending_value,
+                    cache: false,
+                    success: function (data) {
+                        if (data == "ok") {
+                            window.onbeforeunload = null;
+                            window.location.href = "../estimate_settings.php";
+                        }
+                    }
+                });
             }
         </script>
 
@@ -236,8 +407,21 @@ and open the template in the editor.
             </div>
 
         </div>
-        <div class="container" id="databody">
+        <div class="container"><h3 class="w3-header">Estimate</h3></div>
+        <div class="container w3-theme-l4 w3-padding-16 w3-round" id="databody">
 
+        </div>
+        <div class="container"><h3  class="w3-header">Extra Estimate</h3></div>
+        <div class="container w3-theme-l4 w3-padding-16 w3-round" id="databody_02">
+
+        </div>
+        <div class="container w3-margin-top">
+            <div class="row">              
+                <div class="col-lg-2 w3-padding-8" id="button_body"></div>
+                <div class="col-lg-2 w3-padding-8" id="button_body_02"></div>
+                <div class="col-lg-2 w3-padding-8" id="button_body_03"></div>
+                <div class="col-lg-6"></div>
+            </div>
         </div>
 
         <?php

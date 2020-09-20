@@ -117,7 +117,7 @@ function load_others_to_table(id, name, body_div) {
 
 }
 function save_update_tecnical_work(id, div_row, body_div) {
-    var sending_value = "id=" + id;
+    var sending_value = "id=" + id+"&estimate_id=" + get_estimate_type_id+"&estimate_in_state="+get_estimate_in_out_state;
     $.ajax({
         url: "create_estimate_type/others/set_estimate_type_others.php",
         type: 'POST',

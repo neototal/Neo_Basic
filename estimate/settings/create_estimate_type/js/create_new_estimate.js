@@ -81,14 +81,16 @@ function setup_data(obj_input, obj_text, error_id) {
             data: sending_value,
             success: function (data) {
                 get_estimate_type_id = data;
-                load_selection();
+                load_selection(1);
                 load_estimate_type();
             }
         });
     }
 }
 var get_estimate_type_id = 0;
-function load_selection() {
+var get_estimate_in_out_state = 0;
+function load_selection(in_out_state) {
+    get_estimate_in_out_state = in_out_state;
     var modal_body_from = document.getElementById("modal_body_from");
     $(modal_body_from).empty();
 
@@ -103,7 +105,11 @@ function load_selection() {
     $(error).empty();
 
 
-    modal_head.appendChild(document.createTextNode("Select category"));
+    if (in_out_state == 1) {
+        modal_head.appendChild(document.createTextNode("Select category for estimate "));
+    } else {
+        modal_head.appendChild(document.createTextNode("Select category for Out Of Estimate "));
+    }
 
 
     var a_row = document.createElement("div");

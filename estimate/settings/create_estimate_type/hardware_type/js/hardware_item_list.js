@@ -119,7 +119,7 @@ function load_hardware_item_type_to_table(id, name, body_div) {
 
 }
 function save_update_hardware_item_type(id, div_row,body_div) {
-    var sending_value = "id=" + id + "&estimate_id=" + get_estimate_type_id;
+    var sending_value = "id=" + id + "&estimate_id=" + get_estimate_type_id+"&estimate_in_state="+get_estimate_in_out_state;;
     
     $.ajax({
         url: "create_estimate_type/hardware_type/set_estimate_type_hardware_item_type.php",

@@ -1,5 +1,4 @@
 <?php
-
 if (!isset($_SESSION)) {
     session_start();
 }
@@ -37,5 +36,5 @@ $pth = "";
 for ($i = 0; $i < $count; $i++) {
     $pth = $pth . "../";
 }
-$_SESSION['pth']=$pth;
+$_SESSION['pth'] = $pth;
 ?>

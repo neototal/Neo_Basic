@@ -112,9 +112,7 @@ and open the template in the editor.
                     var page_button_list = document.getElementById("page_button_list");
                     var get_per_page_count = document.getElementById("get_per_page_count");
 
-
                     var search_items_txt = document.getElementById("search_items_txt");
-
 
                     var btn = document.createElement("button");
                     btn.setAttribute("class", "w3-button w3-theme-d2 w3-hover-blue-grey w3-round w3-margin-right");

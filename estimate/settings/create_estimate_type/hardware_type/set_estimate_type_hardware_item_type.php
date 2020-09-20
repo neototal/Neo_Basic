@@ -9,11 +9,11 @@ $userid = isset($_SESSION['userid']) ? $_SESSION['userid'] : "0";
 if ($id_of_estimate == 0) {
     $id_of_estimate = isset($_SESSION['estiamte_id_type']) ? $_SESSION['estiamte_id_type'] : "";
 }
-
+$estimate_in_state = isset($_POST['estimate_in_state']) ? $_POST['estimate_in_state'] : "";
 $database_connction = database();
 
-$sql_query = "insert into estimate_setup_hardware_item_type(ast,sdt,user_login_iduser_login,Estimate_type_idEstimate_type,hardware_type_idhardware_type) values("
-        . "'1',now(),'" . $userid . "','" . $id_of_estimate . "','" . $id_of_item_type . "')";
+$sql_query = "insert into estimate_setup_hardware_item_type(ast,sdt,user_login_iduser_login,Estimate_type_idEstimate_type,hardware_type_idhardware_type,estimate_in_state) values("
+        . "'1',now(),'" . $userid . "','" . $id_of_estimate . "','" . $id_of_item_type . "','".$estimate_in_state."')";
 
 
 $database_connction->query($sql_query);

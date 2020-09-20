@@ -5,7 +5,6 @@ include_once '../../../Imports/header/back_end_head_imports.php';
 
 $id = isset($_POST['id']) ? $_POST['id'] : "0";
 $type_of_search = isset($_POST['type_id']) ? $_POST['type_id'] : "0";
-$search_value=  isset($_POST['search'])?$_POST['search']:"";
 
 $database_connction = database();
 $database_connction_01 = database();
@@ -20,7 +19,7 @@ if ($result->num_rows > 0) {
     while ($row = $result->fetch_assoc()) {
 //        -------------------------------------------
         if ($row['item_list_state'] == "1") {
-            $sql_quary_01 = "select * from item_type where type_name like '%".$search_value."%' and iditem_type in(select item_type_iditem_type from estimate_setup_item_type where Estimate_type_idEstimate_type='" . $id . "' and estimate_in_state='1')";
+            $sql_quary_01 = "select * from item_type where iditem_type in(select item_type_iditem_type from estimate_setup_item_type where Estimate_type_idEstimate_type='" . $id . "' and estimate_in_state='0')";
             $result_01 = $database_connction_01->query($sql_quary_01);
             if ($result_01->num_rows > 0) {
                 while ($row_01 = $result_01->fetch_assoc()) {
@@ -37,7 +36,7 @@ if ($result->num_rows > 0) {
         }
 //        -------------------------------------------
         if ($row['tecnical_works_state'] == "1") {
-            $sql_quary_02 = "select * from tecnical_works where name like '%".$search_value."%' and idtecnical_works in(select tecnical_works_idtecnical_works from estimate_setup_tecnical_works where Estimate_type_idEstimate_type='" . $id . "' and estimate_in_state='1')";
+            $sql_quary_02 = "select * from tecnical_works where idtecnical_works in(select tecnical_works_idtecnical_works from estimate_setup_tecnical_works where Estimate_type_idEstimate_type='" . $id . "' and estimate_in_state='0')";
             $result_02 = $database_connction_02->query($sql_quary_02);
             if ($result_02->num_rows > 0) {
                 while ($row_02 = $result_02->fetch_assoc()) {
@@ -54,7 +53,7 @@ if ($result->num_rows > 0) {
 
 //        -------------------------------------------
         if ($row['other_work_state'] == "1") {
-            $sql_quary_03 = "select * from others where name like '%".$search_value."%' and idothers in(select others_idothers from estimate_setup_others where Estimate_type_idEstimate_type='" . $id . "' and estimate_in_state='1')";
+            $sql_quary_03 = "select * from others where idothers in(select others_idothers from estimate_setup_others where Estimate_type_idEstimate_type='" . $id . "' and estimate_in_state='0')";
             $result_03 = $database_connction_03->query($sql_quary_03);
             if ($result_03->num_rows > 0) {
                 while ($row_03 = $result_03->fetch_assoc()) {
@@ -71,7 +70,7 @@ if ($result->num_rows > 0) {
 
 //        -------------------------------------------
         if ($row['hardware_list'] == "1") {
-            $sql_quary_04 = "select * from hardware_type where hardware_type like '%".$search_value."%' and idhardware_type in(select hardware_type_idhardware_type from estimate_setup_hardware_item_type where Estimate_type_idEstimate_type='" . $id . "' and estimate_in_state='1')";
+            $sql_quary_04 = "select * from hardware_type where idhardware_type in(select hardware_type_idhardware_type from estimate_setup_hardware_item_type where Estimate_type_idEstimate_type='" . $id . "' and estimate_in_state='0')";
             $result_04 = $database_connction_04->query($sql_quary_04);
             if ($result_04->num_rows > 0) {
                 while ($row_04 = $result_04->fetch_assoc()) {
@@ -151,7 +150,7 @@ echo json_encode($json);
 function load_hardware_list($id) {
     $json = array();
     $database = database();
-    $sql_quary = "select * from hardware_type where idhardware_type in(select hardware_type_idhardware_type from estimate_setup_hardware_item_type where Estimate_type_idEstimate_type='" . $id . "' and estimate_in_state='1')";
+    $sql_quary = "select * from hardware_type where idhardware_type in(select hardware_type_idhardware_type from estimate_setup_hardware_item_type where Estimate_type_idEstimate_type='" . $id . "' and estimate_in_state='0')";
     $result = $database->query($sql_quary);
     if ($result->num_rows > 0) {
         while ($row = $result->fetch_assoc()) {

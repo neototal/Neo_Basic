@@ -29,9 +29,9 @@ isset($_SESSION['pth']) ? $pth = $_SESSION['pth'] : $pth = "";
 </style>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Allerta+Stencil">
 <style>
-.w3-header {
-  font-family: "Allerta Stencil", Sans-serif;
-}
+    .w3-header {
+        font-family: "Allerta Stencil", Sans-serif;
+    }
 </style>
 <!--w3css color theam-->
 <link rel="stylesheet" href="<?php echo $pth; ?>Imports/lib/w3css_color.css">
@@ -68,4 +68,28 @@ include_once $pth . 'Imports/lib/js_online_improrts.php';
         }
 
     });
+
+    var button_list = document.getElementsByClassName("w3-button");
+    $(document).ready(function () {
+        for (var i = 0; i < button_list.length; i++) {
+            button_list[i].addEventListener("mouseover", function () {
+                session_expiry();
+            });
+        }
+    });
+    function session_expiry() {
+////        alert('test');
+//        $.ajax({
+//            url: "<?php // echo $pth; ?>Imports/session_manager/check_login.php",
+//            type: 'POST',
+//            cache: false,
+//            success: function (data) {
+//                if (data == "logout") {
+//                    window.location.href = "<?php // echo $pth; ?>index.php";
+//                } else {
+////                    alert(data);
+//                }
+//            }
+//        });
+    }
 </script>

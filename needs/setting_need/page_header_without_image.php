@@ -80,11 +80,14 @@
                     <div class="input-group">
                         <input type="text" class="form-control" id="search_value"  autocomplete="off" placeholder="search">
                         <span class="input-group-btn">
-                            <button class="btn btn-default" id="search_value_btn"><span class="fa fa-search"></span></button>
+                            <button class="btn btn-default" id="search_value_btn" style="display: none;" title="search" ><span class="fa fa-search"></span></button>
+                            <button class="btn btn-default" id="cancel_search" style="display: none;"  title="cancel search" ><i class="fa fa-times" aria-hidden="true"></i></button>
                         </span>
 
                     </div>
+                    
                 </div>
+                
             </div>
             <div class="row">
                 <div class="col-lg-8" id="dis">
