@@ -13,6 +13,7 @@ and open the template in the editor.
         $_SESSION['pth'] = "../";
         $_SESSION['title'] = "Item Management";
         include_once '../Imports/header/basic_header.php';
+        unset($_SESSION['item_id']);
         ?>
         <script type="text/javascript">
             function add_new_item() {
@@ -42,10 +43,16 @@ and open the template in the editor.
                     <input type="text" onchange="main_loder()" onkeyup="main_loder()" placeholder="search items" id="search_items_txt" class="w3-input w3-border w3-border-black ">
                 </div>
                 <div class="col-lg-1">
-                    <button class="w3-theme-dark w3-round w3-input w3-hover-blue-grey"><span class="fa fa-cog"></span></button>
+                    <div class="w3-dropdown-hover w3-hide-small" style="width: 100%;">
+                        <button class="w3-theme-dark w3-round w3-input "><span class="fa fa-wrench"></span></button>
+                        <div class="w3-dropdown-content w3-card-4 w3-bar-block" style="width: 300px">
+                            <button class="w3-button w3-bar-item">Price Range Adjustment</button>
+                            <button class="w3-button w3-bar-item">Variable Management</button>
+                        </div>
+                    </div>
                 </div>
                 <div class="col-lg-2">
-                    <button class="w3-theme-dark w3-button w3-input w3-hover-blue-grey" onclick="add_new_item()">Add New Item</button>
+                    <button class="w3-theme-dark w3-button w3-input w3-hover-blue-grey w3-round" onclick="add_new_item()">Add New Item</button>
                 </div>
 
             </div>
@@ -139,7 +146,7 @@ and open the template in the editor.
 //                            alert(data);
                             var json = eval(data);
                             for (var i = 0; i < json.length; i++) {
-                                load_data_of_table(json[i].iditem_list, json[i].name, json[i].dis, json[i].warranty_dis, json[i].item_type_iditem_type, json[i].item_type_name,json[i].warranty_risk, div_body);
+                                load_data_of_table(json[i].iditem_list, json[i].name, json[i].dis, json[i].warranty_dis, json[i].item_type_iditem_type, json[i].item_type_name, json[i].warranty_risk, div_body);
                             }
                             if (json.length == 0) {
                                 var a_row = document.createElement("div");
@@ -157,7 +164,7 @@ and open the template in the editor.
 
 
 
-                function load_data_of_table(id, name, dis, warranty, item_type_id, item_type_name,warranty_risk, div_body) {
+                function load_data_of_table(id, name, dis, warranty, item_type_id, item_type_name, warranty_risk, div_body) {
                     var a_row = document.createElement("div");
                     a_row.setAttribute("class", "row");
                     var a_col_01 = document.createElement("div");
@@ -205,7 +212,7 @@ and open the template in the editor.
                     aA_col_03.setAttribute("class", "col-lg-12");
 
                     var aA_col_03_b = document.createElement("b");
-                    aA_col_03_b.appendChild(document.createTextNode(warranty+"  ( Warranty risk "+warranty_risk+"%)"));
+                    aA_col_03_b.appendChild(document.createTextNode(warranty + "  ( Warranty risk " + warranty_risk + "%)"));
                     aA_col_03.appendChild(aA_col_03_b);
 
                     aA_sub_row_03.appendChild(aA_col_03);
@@ -220,6 +227,10 @@ and open the template in the editor.
                     var span_btn_goble = document.createElement("span");
                     span_btn_goble.setAttribute("class", "fa fa-globe");
                     btn_goble.appendChild(span_btn_goble);
+                    btn_goble.addEventListener("click", function () {
+                        setup_id_to_view(id);
+
+                    });
                     a_col_02.appendChild(btn_goble);
 
 
@@ -246,6 +257,19 @@ and open the template in the editor.
 
                     div_body.appendChild(a_row);
                     div_body.appendChild(document.createElement("hr"));
+
+                }
+                function setup_id_to_view(id) {
+                    var sending_value = "id=" + id;
+                    $.ajax({
+                        url: "item_list/item_id.php",
+                        type: 'POST',
+                        data: sending_value,
+                        cache: false,
+                        success: function (data) {
+                            window.location.href = "item_list/item_advance/item_advance_detail_seup.php";
+                        }
+                    });
 
                 }
             </script>
@@ -298,6 +322,7 @@ and open the template in the editor.
         <div class="container">
             <div class="row">
                 <div class="col-lg-2">
+
                     <script type="text/javascript">
 
 
@@ -305,11 +330,11 @@ and open the template in the editor.
                 </div>
                 <div class="col-lg-8">
                     <div class="w3-bar w3-right-align w3-margin" id="page_button_list">
-<!--                        <button  class="w3-button w3-theme-d2 w3-hover-blue-grey w3-round">&laquo;</button>
-                        <button class="w3-button w3-theme-d2 w3-hover-blue-grey w3-round">1</button>
-                        <button class="w3-button w3-theme-d2 w3-hover-blue-grey w3-round">2</button>
-                        <button class="w3-button w3-theme-d2 w3-hover-blue-grey w3-round">3</button>
-                        <button  class="w3-button w3-theme-d2 w3-hover-blue-grey w3-round">&raquo;</button>                       -->
+                        <!--                        <button  class="w3-button w3-theme-d2 w3-hover-blue-grey w3-round">&laquo;</button>
+                                                <button class="w3-button w3-theme-d2 w3-hover-blue-grey w3-round">1</button>
+                                                <button class="w3-button w3-theme-d2 w3-hover-blue-grey w3-round">2</button>
+                                                <button class="w3-button w3-theme-d2 w3-hover-blue-grey w3-round">3</button>
+                                                <button  class="w3-button w3-theme-d2 w3-hover-blue-grey w3-round">&raquo;</button>                       -->
                     </div>
                 </div>
                 <div class="col-lg-2">

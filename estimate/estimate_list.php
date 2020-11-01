@@ -24,14 +24,22 @@ and open the template in the editor.
             function go_to_settings() {
                 window.location.href = "estimate_settings.php";
             }
+
+            function create_new() {
+                window.location.href="estimate_management/create_estimate.php";
+            }
+            function create_catergory(){
+                window.location.href="settings/condition_management/load_estimate_condition.php";
+            }
+
         </script>
         <div class="container">
             <div class="row">
                 <div class="col-lg-6">
-                    <h1 class="w3-header">Estimate List</h1>
+                    <h1 class="w3-header">Estimate List <small id="heading_small">Pending estimate</small></h1>
 
                 </div>
-                <div class="col-lg-5">
+                <div class="col-lg-4">
                     <!--<input type="text"  placeholder="search estimate type"  class="w3-input w3-border w3-border-black ">-->
                     <div class="input-group">
                         <input type="text" class="form-control" id="search_items_txt"  autocomplete="off" placeholder="search from estimate number">
@@ -45,22 +53,29 @@ and open the template in the editor.
                 <div class="col-lg-1">                    
                     <div class="w3-dropdown-hover w3-hide-small" style="width: 100%;">
                         <button class="w3-theme-dark w3-input w3-button w3-round w3-hover-blue-grey" title="advance search"><i class="fa fa-cogs" aria-hidden="true"></i></button>
-                        <div class="w3-dropdown-content w3-card-2 w3-bar-block" style="width: 300px;">
+                        <div class="w3-dropdown-content w3-card-2 w3-bar-block" style="width: 200px;">
                             <button class="w3-button w3-bar-item">Pending estimate</button>
-                            <button class="w3-button w3-bar-item">expired estimate</button>
-                            
+                            <button class="w3-button w3-bar-item">Expired estimate</button>
+                            <button class="w3-button w3-bar-item">Cancel estimate</button>
+
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-1">
+                    <div class="w3-dropdown-hover w3-hide-small" style="width: 100%;">
+                        <button class="w3-theme-dark w3-round w3-input w3-hover-blue-grey" title="settings" ><i class="fa fa-wrench" aria-hidden="true"></i></button>
+                        <div class="w3-dropdown-content w3-bar-block" style="width: 250px;">
+                            <button class="w3-bar-item w3-button" onclick="go_to_settings()">Template Management</button>
+                            <button class="w3-bar-item w3-button" onclick="create_catergory()"> Category Management</button>
                         </div>
                     </div>
                 </div>
             </div>
             <div class="row">
-                <div class="col-lg-8"></div>
-                <div class="col-lg-1">
-                    <button class="w3-theme-dark w3-round w3-input w3-hover-blue-grey" title="settings" onclick="go_to_settings()"><i class="fa fa-wrench" aria-hidden="true"></i></button>
+                <div class="col-lg-9"></div>
 
-                </div>
                 <div class="col-lg-3">
-                    <button class="w3-theme-dark w3-button w3-input w3-hover-blue-grey">Create New Estimate</button>
+                    <button class="w3-theme-dark w3-button w3-input w3-hover-blue-grey w3-round" onclick="create_new()">Create New Estimate</button>
                 </div>
             </div>
             <div class="row">
@@ -77,7 +92,7 @@ and open the template in the editor.
     </div>
 
     <?php
-    
+    include_once './estimate_management/modal/modal.php';
     include_once '../Imports/footer/footer_system.php';
     ?>
 </body>

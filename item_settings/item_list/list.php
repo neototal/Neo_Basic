@@ -7,11 +7,15 @@ include_once '../../Imports/header/back_end_head_imports.php';
 $search_value = isset($_POST['search_value']) ? $_POST['search_value'] : "";
 $no_of_count = isset($_POST['no_of_count']) ? $_POST['no_of_count'] : "";
 $stating_row_number = isset($_POST['stating_row_number']) ? $_POST['stating_row_number'] : "";
+$sql_query_continue = "name like '%" . $search_value . "%' LIMIT " . $no_of_count . " OFFSET " . $stating_row_number;
+if (isset($_SESSION['item_id'])) {
+    $sql_query_continue = "iditem_list='" . $_SESSION['item_id'] . "'";
+}
 
 $json = array();
 
 $database_connction = database();
-$sql_query = "select * from item_list where ast='1' and name like '%" . $search_value . "%' LIMIT " . $no_of_count . " OFFSET " . $stating_row_number;
+$sql_query = "select * from item_list where ast='1' and ".$sql_query_continue;
 //echo $sql_query;
 $result = $database_connction->query($sql_query);
 

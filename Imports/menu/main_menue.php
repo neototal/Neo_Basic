@@ -10,7 +10,7 @@
         text-decoration: none !important;
     }
 </style>
-<div class="w3-bar w3-theme-l5">
+<div class="w3-bar w3-theme-light">
     <div class="container">
         <div class="row">
             <div class="col-lg-3 col-sm-12">
@@ -30,8 +30,8 @@
                         </div>
                     </div>
                     <div class="w3-dropdown-hover w3-right ">
-                        <button class="w3-button">Accounts</button>
-                        <div class="w3-dropdown-content w3-bar-block w3-card-4 w3-top" style="width: 250px;">
+                        <button class="w3-button w3-theme-l5">Accounts</button>
+                        <div class="w3-dropdown-content  w3-bar-block w3-card-4 w3-top" style="width: 250px;">
                             <a href="#" class="w3-bar-item w3-button">Link 1</a>
                             <a href="#" class="w3-bar-item w3-button">Link 2</a>
                             <a href="#" class="w3-bar-item w3-button">Link 3</a>
@@ -39,16 +39,15 @@
                     </div>
 
                     <div class="w3-dropdown-hover w3-right ">
-                        <button class="w3-button">Customer</button>
+                        <button class="w3-button w3-theme-l5">Customer</button>
                         <div class="w3-dropdown-content w3-bar-block w3-card-4 w3-top" style="width: 250px;">
-                            <
                             <a href="#" class="w3-bar-item w3-button">Create New</a>
                             <a href="#" class="w3-bar-item w3-button">Customer List</a>
                             <a href="#" class="w3-bar-item w3-button">Customer Outstanding</a>
                         </div>
                     </div>
                     <div class="w3-dropdown-hover w3-right ">
-                        <button class="w3-button">Supplies</button>
+                        <button class="w3-button w3-theme-l5">Supplies</button>
                         <div class="w3-dropdown-content w3-bar-block w3-card-4 w3-top" style="width: 250px;">
                             <a href="#" class="w3-bar-item w3-button">Create New</a>
                             <a href="#" class="w3-bar-item w3-button">Supplies List</a>
@@ -57,7 +56,7 @@
                     </div>
 
                     <div class="w3-dropdown-hover w3-right ">
-                        <button class="w3-button">Invoice</button>
+                        <button class="w3-button w3-theme-l5">Invoice</button>
                         <div class="w3-dropdown-content w3-bar-block w3-card-4 w3-top" style="width: 250px;">
                             <a href="#" class="w3-bar-item w3-button">Create New</a>
                             <a href="#" class="w3-bar-item w3-button">Invoice List</a>
@@ -66,7 +65,7 @@
                     </div>
 
                     <div class="w3-dropdown-hover w3-right ">
-                        <button class="w3-button">GRN</button>
+                        <button class="w3-button w3-theme-l5">GRN</button>
                         <div class="w3-dropdown-content w3-bar-block w3-card-4 w3-top" style="width: 250px;">
                             <a href="#" class="w3-bar-item w3-button">Create New</a>
                             <a href="#" class="w3-bar-item w3-button">GRN List</a>
@@ -74,13 +73,13 @@
                         </div>
                     </div>
                     <div class="w3-dropdown-hover w3-right ">
-                        <button class="w3-button">Estimate</button>
+                        <button class="w3-button w3-theme-l5">Estimate</button>
                         <div class="w3-dropdown-content w3-bar-block w3-card-4 w3-top" style="width: 250px;">
                             <a href="#" class="w3-bar-item w3-button">Create New</a>
                             <a href="<?php echo $pth; ?>estimate/estimate_list.php" class="w3-bar-item w3-button">Estimate List</a>
                         </div>
                     </div>
-                    <button class="w3-bar-item w3-right w3-button">Home</button>
+                    <button class="w3-bar-item w3-right w3-theme-l5 w3-button">Home</button>
                 </div>
             </div>
         </div>

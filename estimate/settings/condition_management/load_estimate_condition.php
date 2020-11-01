@@ -6,25 +6,26 @@ and open the template in the editor.
 -->
 <html>
     <head>
-
         <meta charset="UTF-8">
         <?php
-        include_once '../Imports/header/session_setup.php';
-        $_SESSION['pth'] = "../";
-        $_SESSION['title'] = "Estimate Settings";
-         unset($_SESSION['estiamte_id_type']);
-        include_once '../Imports/header/basic_header.php';
+        include_once '../../../Imports/header/session_setup.php';
+        $_SESSION['pth'] = "../../../";
+        $_SESSION['title'] = "Estimate Settings | Create New Type";
+        unset($_SESSION['id']);
+        include_once '../../../Imports/header/basic_header.php';
         ?>
+
     </head>
     <body class="w3-theme-light">
         <?php
-        include_once '../Imports/menu/main_menue.php';
+        include_once '../../../Imports/menu/main_menue.php';
         ?>
 
         <script type="text/javascript">
-            function create_estimate_type() {
-                window.location.href = "settings/create_estimate_type.php";
+            function create_new() {
+                window.location.href = "create_new_condition.php";
             }
+
             $(document).ready(function () {
                 showing_state = 1;
                 main_loder(showing_state);
@@ -54,18 +55,18 @@ and open the template in the editor.
                     document.getElementById("search_value_btn_close").style.display = "block";
                 }
 
-                var sending_value = "search_value=" + search_items_txt.value + "&count_of_per_page=" + get_per_page_count.value;
+                var sending_value = "search_value=" + search_items_txt.value + "&count_of_per_page=" + get_per_page_count.value + "&showing_state=" + showing_state;
 //                alert(sending_value);
                 $.ajax({
-                    url: "settings/get_count.php",
+                    url: "main_loader/get_count.php",
                     type: 'POST',
                     cache: false,
                     data: sending_value,
                     success: function (data) {
+//                        alert(data);
                         var page_button_list = document.getElementById("page_button_list");
                         $(page_button_list).empty();
                         for (var i = 0; i < parseInt(data); i++) {
-
                             setUp_buttons(i);
                         }
                     }
@@ -97,7 +98,7 @@ and open the template in the editor.
                 var sending_value = "search_value=" + search_items_txt.value + "&showing_state=" + showing_state + "&no_of_count=" + no_of_count + "&stating_row_number=" + stating_row_number;
 //                    alert(sending_value);
                 $.ajax({
-                    url: "settings/list.php",
+                    url: "main_loader/list.php",
                     type: 'POST',
                     cache: false,
                     data: sending_value,
@@ -105,7 +106,7 @@ and open the template in the editor.
 //                            alert(data);
                         var json = eval(data);
                         for (var i = 0; i < json.length; i++) {
-                            load_data_of_table(json[i].idEstimate_type, json[i].name, json[i].dis, div_body);
+                            load_data_of_table(json[i].id, json[i].name, "", div_body);
                         }
                         if (json.length == 0) {
                             var a_row = document.createElement("div");
@@ -181,7 +182,7 @@ and open the template in the editor.
                 btn_goble.appendChild(span_btn_goble);
                 btn_goble.setAttribute("title", "view recode");
                 btn_goble.addEventListener("click", function () {
-                    etimate_type_view(id);
+                    estimate_cat(id);
                 });
                 a_col_02.appendChild(btn_goble);
 
@@ -193,7 +194,7 @@ and open the template in the editor.
                 btn_del.setAttribute("class", "w3-red w3-button w3-input w3-round");
                 btn_del.addEventListener("click", function () {
                     if (confirm("do you want to delete the record")) {
-                        remove_estimate_type(id);
+                        remove_cat(id);
                     }
                 });
                 var span_btn_del = document.createElement("i");
@@ -212,30 +213,31 @@ and open the template in the editor.
                 div_body.appendChild(document.createElement("hr"));
 
             }
-            function remove_estimate_type(estimate_type_id) {
-                var sending_values="id="+estimate_type_id;
+            function remove_cat(cat_id) {
+                var sending_values = "id=" + cat_id;
                 $.ajax({
-                    url:"settings/create_estimate_type/remove.php",
+                    url: "main_loader/remove.php",
                     type: 'POST',
                     data: sending_values,
                     cache: false,
                     success: function (data) {
-                         main_loder(showing_state);
+//                        alert(data);
+                        main_loder(showing_state);
                     }
                 });
 
             }
-            function etimate_type_view(estimate_type_id) {
-                var sending_value = "id=" + estimate_type_id;
+            function estimate_cat(cat_id) {
+                var sending_value = "id=" + cat_id;
 //                alert(sending_value);
                 $.ajax({
-                    url: "settings/set_estimate_type_id.php",
+                    url: "main_loader/set_cat_id.php",
                     type: 'POST',
                     data: sending_value,
                     cache: false,
                     success: function (data) {
                         if (data == "ok") {
-                            window.location.href = "settings/create_estimate_type.php";
+                            window.location.href = "create_new_condition.php";
                         } else {
                             alert(data);
                         }
@@ -263,7 +265,7 @@ and open the template in the editor.
         <div class="container">
             <div class="row">
                 <div class="col-lg-6">
-                    <h1 class="w3-header">Estimate Type Settings<br> <small id="heading_small" class="w3-text-red">gfd</small></h1>
+                    <h1 class="w3-header">Category Type & Conditions<br> <small id="heading_small" class="w3-text-red">gfd</small></h1>
 
                 </div>
                 <div class="col-lg-5">
@@ -271,7 +273,7 @@ and open the template in the editor.
                     <div class="input-group">
                         <input type="text" class="form-control" id="search_items_txt"  autocomplete="off" placeholder="search estimate type">
                         <span class="input-group-btn">
-                            <button class="btn btn-default" id="search_value_btn" style="display: none;" onclick="main_loder()" title="search" ><span class="fa fa-search"></span></button>
+                            <button class="btn btn-default" id="search_value_btn" onclick="main_loder()" title="search" ><span class="fa fa-search"></span></button>
                             <button class="btn btn-default" id="search_value_btn_close" onclick="cancel_search()" style="display: none;"  title="cancel search" ><i class="fa fa-times" aria-hidden="true"></i></button>
                         </span>
 
@@ -284,8 +286,8 @@ and open the template in the editor.
                     <div class="w3-dropdown-hover w3-hide-small" style="width: 100%;">
                         <button class="w3-button w3-round  w3-theme-dark w3-input" title="Advance Search" ><i class="fa fa-cogs"></i></button>
                         <div class="w3-dropdown-content w3-card-4 w3-bar-block" style="width: 300px">
-                            <button class="w3-button w3-bar-item" onclick="estimate_type_active()" >Show Estimate Type List</button>
-                            <button class="w3-button w3-bar-item" onclick="draft_estimate_types()">Show Draft Estimate Type</button>
+                            <button class="w3-button w3-bar-item" onclick="estimate_type_active()" >Show Category Type List</button>
+                            <button class="w3-button w3-bar-item" onclick="draft_estimate_types()">Show Draft Category Type</button>
 
                         </div>
                     </div>
@@ -297,7 +299,7 @@ and open the template in the editor.
 
                 </div>
                 <div class="col-lg-3">
-                    <button onclick="create_estimate_type()" class="w3-theme-dark w3-round w3-button w3-input w3-hover-blue-grey"> Create New Estimate Type</button>
+                    <button onclick="create_new()" class="w3-theme-dark w3-round w3-button w3-input w3-hover-blue-grey"> Create New Estimate Type</button>
                 </div>
 
 
@@ -307,7 +309,7 @@ and open the template in the editor.
                     <ul class="breadcrumb">
                         <li class="breadcrumb-item"><a href="../system_dash_board.php">Home</a></li>
                         <li class="breadcrumb-item"><a href="estimate_list.php">Estimate List</a></li>
-                        <li class="breadcrumb-item active">Estimate Type Settings</li>
+                        <li class="breadcrumb-item active">Category Type & Condition Settings</li>
                     </ul>
                 </div>
             </div>
@@ -339,8 +341,14 @@ and open the template in the editor.
                 </div>
             </div>
         </div>
+
+
+
+
+
         <?php
-        include_once '../Imports/footer/footer_system.php';
+        include_once './modal.php';
+        include_once '../../../Imports/footer/footer_system.php';
         ?>
     </body>
 </html>

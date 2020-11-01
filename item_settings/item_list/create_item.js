@@ -192,7 +192,7 @@ function create_item(id, name) {
     btn_save.setAttribute("class", "w3-theme-dark w3-button w3-round");
     btn_save.appendChild(document.createTextNode("create new item"));
     btn_save.addEventListener("click", function () {
-        add_data(id, a_input_text_name, e_text_dis, b_input_text_modal_no, b_input_text_warranty, c_input_text_vsp, c_input_serial_state, d_input_text_dealer, d_input_text_budget, d_input_text_cooperate, f_text_opening_stock,f_text_warranty_risk);
+        add_data(id, a_input_text_name, e_text_dis, b_input_text_modal_no, b_input_text_warranty, c_input_text_vsp, c_input_serial_state, d_input_text_dealer, d_input_text_budget, d_input_text_cooperate, f_text_opening_stock, f_text_warranty_risk);
     });
 
     $("#error_id").empty();
@@ -200,7 +200,7 @@ function create_item(id, name) {
     footer.appendChild(btn_save);
 }
 
-function add_data(id_item, obj_name, obj_dis, obj_modal_no, obj_warranty, obj_vsp_price, obj_avalible_serial_no_check, obj_dealer_rate, obj_budget_rate, obj_coperate_rate, obj_open_stock,obj_warranty_risk) {
+function add_data(id_item, obj_name, obj_dis, obj_modal_no, obj_warranty, obj_vsp_price, obj_avalible_serial_no_check, obj_dealer_rate, obj_budget_rate, obj_coperate_rate, obj_open_stock, obj_warranty_risk) {
     var error_id = document.getElementById("error_id");
 //    alert(obj_vsp_price.value);
     if (obj_name.value == "") {
@@ -252,7 +252,7 @@ function add_data(id_item, obj_name, obj_dis, obj_modal_no, obj_warranty, obj_vs
         }
         var sending_values = "item_type_id=" + id_item + "&name=" + obj_name.value + "&dis=" + obj_dis.value + "&modal_no=" + obj_modal_no.value + "&warranty=" + obj_warranty.value +
                 "&vsp_price=" + obj_vsp_price.value + "&serial_no_avalible=" + serial_no_avalible + "&dealer_rate=" + obj_dealer_rate.value + "&budget_rate=" + obj_budget_rate.value +
-                "&coperate_rate=" + obj_coperate_rate.value + "&open_stock=" + obj_open_stock.value+"&warranty_risk="+obj_warranty_risk.value;
+                "&coperate_rate=" + obj_coperate_rate.value + "&open_stock=" + obj_open_stock.value + "&warranty_risk=" + obj_warranty_risk.value;
 
         $.ajax({
             url: "item_list/add_new.php",
@@ -260,7 +260,8 @@ function add_data(id_item, obj_name, obj_dis, obj_modal_no, obj_warranty, obj_vs
             data: sending_values,
             cache: false,
             success: function (data) {
-                main_loder();
+//                alert(data);
+                window.location.href = "item_list/item_advance/item_advance_detail_seup.php";
                 $("#myModal").modal('hide');
             }
         });

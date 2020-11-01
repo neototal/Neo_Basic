@@ -11,7 +11,7 @@ and open the template in the editor.
         <?php
         include_once '../../Imports/header/session_setup.php';
         $_SESSION['pth'] = "../../";
-        $_SESSION['title'] = "Estimate Settings | Create New";
+        $_SESSION['title'] = "Estimate Settings | Create New Type";
         include_once '../../Imports/header/basic_header.php';
         ?>
 
@@ -99,8 +99,8 @@ and open the template in the editor.
                 var sending_value = "id=" + get_estimate_type_id;
 //                alert(sending_value);
                 if (get_estimate_type_id == 0) {
-//                    alert('test');
-                    onLoad_estimate();
+//                    alert('test-01');
+                    onLoad_estimate_catergory();
                 }
                 $.ajax({
                     url: "create_estimate_type/list_estimate_type.php",
